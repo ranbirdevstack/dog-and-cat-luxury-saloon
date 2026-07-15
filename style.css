@@ -1,0 +1,212 @@
+/* ==========================================================================
+   1. VARIABLES & DESIGN SYSTEM (Premium Elegant Theme)
+   ========================================================================== */
+:root {
+  --color-bg: #fdfbf7;          /* Soft warm alabaster background */
+  --color-surface: #ffffff;     /* Pure white card container */
+  --color-primary: #1c2b24;     /* Deep imperial green / charcoal */
+  --color-secondary: #c5a880;   /* Luxurious champagne gold */
+  --color-secondary-hover: #b3956b;
+  --color-text-main: #2d312e;   /* Dark charcoal for soft readability */
+  --color-text-muted: #6e7571;  /* Muted silver grey */
+  --color-error: #af3f3f;       /* Deep rich burgundy for errors */
+  --color-border: #e6dfd5;      /* Subtle warm border line */
+  
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --radius-lg: 12px;
+  --radius-sm: 6px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-premium: 0 20px 40px rgba(28, 43, 36, 0.05);
+}
+
+/* ==========================================================================
+   2. RESET & BASE STYLES
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   3. LAYOUT & CONTAINER
+   ========================================================================== */
+.container {
+  background-color: var(--color-surface);
+  width: 100%;
+  max-width: 540px;
+  padding: 40px 32px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-premium);
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+/* Elegant gold accent line below title */
+h1::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background-color: var(--color-secondary);
+  margin: 12px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   4. FORM ELEMENTS & INPUTS
+   ========================================================================== */
+#searchForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Visually elegant, highly readable label */
+.search-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: var(--color-text-main);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+
+/* High contrast accessibility focus states */
+#searchInput:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(197, 168, 128, 0.15);
+}
+
+/* Placeholder styling */
+#searchInput::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* Error text messaging */
+.error-text {
+  font-size: 0.85rem;
+  color: var(--color-error);
+  margin-top: 6px;
+  font-weight: 500;
+  min-height: 1.25rem; /* Prevents layout shifting when text appears */
+}
+
+/* ==========================================================================
+   5. BUTTON & LOADING SPINNER
+   ========================================================================== */
+.search-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: var(--transition-smooth);
+}
+
+.search-btn:hover {
+  background-color: var(--color-secondary);
+}
+
+.search-btn:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Disabled state during search */
+.search-btn:disabled {
+  background-color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* CSS-only Loading Spinner */
+.spinner {
+  display: none; /* Controlled by JavaScript toggling class 'loading' */
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* When form is searching, show spinner */
+.search-btn.loading .spinner {
+  display: inline-block;
+}
+
+/* ==========================================================================
+   6. SEARCH RESULTS DISPLAY
+   ========================================================================== */
+.result {
+  margin-top: 28px;
+  padding: 20px;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border);
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  transition: var(--transition-smooth);
+}
+
+/* State when successful data is rendered via JS */
+.result.has-data {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-text-main);
+  text-align: left;
+}

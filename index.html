@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Saloon Dog & Cat Shop - Premium Grooming & Products</title>
+    <!-- SEO Meta Description Target -->
+    <meta name="description" content="Discover premium dog & cat care products and luxury grooming essentials at the Luxury Saloon Pet Shop search dashboard. Check product availability instantly.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Performance Optimization: Defer prevents render-blocking JavaScript threads -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <!-- CRITICAL FIX: Wrapped the workspace container inside a semantic main landmark -->
+    <main class="container">
+        <h1>Luxury Saloon Dog & Cat Shop</h1>
+        
+        <form action="#" id="searchForm" novalidate>
+            <div class="input-wrapper">
+                <!-- Explicit label provides full compliance for screen readers -->
+                <label for="searchInput" class="search-label">Enter Pet Product</label>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Enter Pet Product " 
+                    required 
+                    autocomplete="off"
+                    aria-describedby="errorFeedback"
+                >
+                <span class="error-text" id="errorFeedback" aria-live="assertive"></span>
+            </div>
+            
+            <button type="submit" class="search-btn" id="searchbtn" aria-label="Search product database">
+                <span class="search-text">Search</span>
+                <span class="spinner" id="btnSpinner" role="status" aria-hidden="true"></span>
+            </button>
+        </form>
+        
+        <div class="result" id="resultDisplay" aria-live="polite">No data found.</div>
+    </main>
+
+</body>
+</html>
