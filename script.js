@@ -17,7 +17,6 @@ const MOCK_PRODUCTS = [
   { id: 10, name: "Cat's Silk Play Tunnel Toy", category: "Toys", pet: "Cat", price: "₹1,850", status: "In Stock" }
 ];
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
@@ -52,17 +51,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     resultDisplay.classList.add("has-data");
-    resultDisplay.innerHTML = results.map(product => `
-      <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
-        <strong style="color: var(--color-primary); display: block;">${product.name}</strong>
-        <span style="font-size: 0.85rem; color: var(--color-text-muted);">
-          Category: ${product.category} | Price: ${product.price} | 
-          <em style="color: ${product.status === 'Out of Stock' ? 'var(--color-error)' : 'var(--color-secondary)'}; font-style: normal; font-weight: 600;">
-            ${product.status}
-          </em>
-        </span>
-      </div>
-    `).join("");
+    resultDisplay.innerHTML = results.map(product => {
+      // Determine individual status color badges using the design system variables
+      let statusColor = "var(--color-secondary)";
+      if (product.status === "Out of Stock") {
+        statusColor = "var(--color-error)";
+      } else if (product.status === "Low Stock") {
+        statusColor = "#d97706"; // Classic luxurious warm amber for low stock alert
+      }
+
+      return `
+        <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border);">
+          <strong style="color: var(--color-primary); display: block; font-size: 1.05rem; margin-bottom: 4px;">${product.name}</strong>
+          <span style="font-size: 0.85rem; color: var(--color-text-muted); display: block; line-height: 1.6;">
+            Category: <span style="color: var(--color-text-main); font-weight: 500;">${product.category}</span> | 
+            Pet: <span style="color: var(--color-text-main); font-weight: 500;">${product.pet}</span> | 
+            Price: <span style="color: var(--color-text-main); font-weight: 600;">${product.price}</span>
+          </span>
+          <span style="display: inline-block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; color: ${statusColor};">
+            ● ${product.status}
+          </span>
+        </div>
+      `;
+    }).join("");
+
+    // Clean up style layout rules for the very last item block rendered
+    if (resultDisplay.lastElementChild) {
+      resultDisplay.lastElementChild.style.borderBottom = "none";
+      resultDisplay.lastElementChild.style.marginBottom = "0";
+      resultDisplay.lastElementChild.style.paddingBottom = "0";
+    }
   }
 
   // Clear errors when the user types or alters text
@@ -90,15 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Set Visual Loading States and Update ARIA accessibility rules
     searchBtn.disabled = true;
-    searchBtn.classList.add("loading");
+    searchBtn.classList.add("loading"); // Correctly mapped onto your layout's template selector
     searchBtn.setAttribute("aria-busy", "true");
+    resultDisplay.classList.remove("has-data");
     resultDisplay.textContent = "Searching premium registry...";
 
     // 3. Simulate API Call Delays
     setTimeout(() => {
       const filteredProducts = MOCK_PRODUCTS.filter(product =>
         product.name.toLowerCase().includes(query.toLowerCase()) ||
-        product.category.toLowerCase().includes(query.toLowerCase())
+        product.category.toLowerCase().includes(query.toLowerCase()) ||
+        product.pet.toLowerCase().includes(query.toLowerCase())
       );
 
       // Render items to dashboard
